@@ -1,29 +1,24 @@
-import { useContext } from 'react';
-import { Input } from './ui/input';
-import { ReviewContext } from '@/context/ReviewContext';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { useProfile } from '@/stores/useProfileStore';
 
 function Navbar() {
-  const { username, setUsername } = useContext(ReviewContext);
+  const { profile } = useProfile();
 
   return (
-    <nav className='flex shadow-sm justify-between items-center py-3 px-5 border-b bg-background transition-colors'>
-      <div>
-        <div className='flex items-center gap-2'>
-          <h1 className='font-bold text-lg'>Review App</h1>
-        </div>
-        <p className='text-[11px] text-muted-foreground'>
-          Halo, {username || 'Masukkan nama anda'}!
+    <nav className="h-16 border-b flex items-center justify-end px-6 gap-3">
+      <div className="text-right">
+        <p className="font-semibold">{profile.name}</p>
+        <p className="text-sm text-muted-foreground">
+          {profile.role}
         </p>
       </div>
 
-      <div className='w-64'>
-        <Input
-          type='text'
-          placeholder='Masukkan username...'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
+      <Avatar>
+        <AvatarImage src={profile.avatar} />
+        <AvatarFallback>
+          {profile.name.charAt(0)}
+        </AvatarFallback>
+      </Avatar>
     </nav>
   );
 }
